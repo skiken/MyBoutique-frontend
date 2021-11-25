@@ -1,0 +1,295 @@
+<div class=" content">
+
+    <nav class="navbar navbar-expand-lg  bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active" ngbDropdown>
+                    <a class="nav-link" (click)="showTable()" data-toggle="dropdown" href="javascript:void(0)"
+                        ngbDropdownToggle> List des Produits <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" ngbDropdown>
+                    <a class="nav-link" (click)="showForm()" data-toggle="dropdown" href="javascript:void(0)"
+                        ngbDropdownToggle>Nouveau Produit</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <section *ngIf="showProducts">
+        <br> <br> <br>
+        <div class=" col-md-12">
+            <div class=" card card-plain">
+                <div class=" card-header">
+                    <label> Selectionner une Categorie : </label>
+                    <div class="select-style">
+                        <select [(ngModel)]="selectedCategory" (change)="selectedcategory()" name="selectedCategory" >
+                            <option></option>
+                            <option *ngFor="let category of categoriesList">{{category.name}}</option>
+                        </select>
+                    </div>
+                    <br>
+                    <h4 class=" card-title">List des Produits : </h4>
+                </div>
+                <div class=" card-body">
+                    <div class=" table-responsive">
+                        <table class=" table tablesorter">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th>Identifiant</th>
+                                    <th>Disponibilité</th>
+                                    <th>Nom</th>
+                                    <th>Description</th>
+                                    <th>Prix</th>
+                                    <th>Quantité</th>
+                                    <th>vendu</th>
+                                    <th>En Stock</th>
+                                    <th>Image Path</th>
+                                    <th class=" text-center"></th>
+                                    <th class=" text-center"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody class=" text-muted" *ngFor="let product of productsList">
+                                <tr>
+                                    <th>
+                                        {{product.id}}
+                                    </th>
+                                    <th>
+                                        {{product.status}}
+                                    </th>
+                                    <th>
+                                        {{product.name}}
+                                    </th>
+                                    <th>
+                                        {{product.description}}
+                                    </th>
+                                    <th>
+                                        {{product.price}} dt
+                                    </th>
+                                    <th>
+                                        {{product.quantity}}
+                                    </th>
+                                    <th>
+                                        {{product.salesCounter}}
+                                    </th>
+                                    <th >
+                                      
+                                        <p class=" text-primary">  {{ countProductInStock(product.quantity,product.salesCounter)}}</p>
+                                    </th>
+                                    <th>
+                                        {{product.imgPath}}
+                                    </th>
+                                    <th>
+                                        <button class="button" (click)="showUpdateForm(product.id)">
+                                            <p class=" text-success">Modifier</p>
+                                        </button>
+                                    </th>
+                                    <th>
+                                        <button class="button" (click)="deleteProduct(product.id)">
+                                            <p class=" text-danger">Supprimer</p>
+                                        </button>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section *ngIf="addProduct">
+        <br><br>
+        <div class=" col-md-8">
+            <div class=" card">
+                <div class=" card-header">
+                    <h5 class=" title">Ajouter un nouveau Produit</h5>
+                </div>
+                <div class=" card-body">
+                    <form name="form" id="formNewProduct" (ngSubmit)="f.form.valid && createProduct()" #f="ngForm" novalidate>
+                        <div class=" col-md-12">
+                            <div class=" form-group">
+                                <label> Selectionner une Categorie : </label>
+                                <div class="select-style">
+                                    <select [(ngModel)]="selectedValue" (change)="selected()" name="selectedValue"
+                                        required>
+                                        <option></option>
+                                        <option *ngFor="let category of categoriesList">{{category.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="text-danger" *ngIf="selectedValue==null">
+                                    Categorie Name is required
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class=" col-md-12">
+                            <br>
+                            <div class=" form-group">
+                                <label> Nom </label>
+                                <input class=" form-control" type="text" name="name" [(ngModel)]="product.name" required
+                                    #name="ngModel" />
+                                <div class="text-danger" *ngIf="f.submitted && name.invalid">
+                                    <div *ngIf="name.errors.required">Name is required</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class=" col-md-12">
+                            <div class=" form-group">
+                                <label> Description </label>
+                                <input class=" form-control" type="text" name="description"
+                                    [(ngModel)]="product.description" #description="ngModel" required />
+                                <div class="text-danger" *ngIf="f.submitted && description.invalid">
+                                    <div *ngIf="description.errors.required">Description is required</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class=" col-md-12">
+                            <div class=" form-group">
+                                <label> Prix </label>
+                                <input class=" form-control" type="number" name="price" [(ngModel)]="product.price"
+                                    #price="ngModel" required />
+                                <div class="text-danger" *ngIf="f.submitted && price.invalid">
+                                    <div *ngIf="price.errors.required">Price is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <div class=" form-group">
+                                <label> Quantité </label>
+                                <input class=" form-control" type="number" name="quantity"
+                                    [(ngModel)]="product.quantity" #quantity="ngModel" required />
+                                <div class="text-danger" *ngIf="f.submitted && quantity.invalid">
+                                    <div *ngIf="quantity.errors.required">Quantity is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <div class=" form-group">
+                                <label>Disponibilité : </label>
+                                <div class="select-style">
+                                    <select [(ngModel)]="product.status" name="product.status" #status="ngModel"
+                                        required>
+                                        <option></option>
+                                        <option>AVAILABLE</option>
+                                        <option>DISCONTINUED</option>
+                                    </select>
+                                    <br>
+                                </div>
+                                <div class="text-danger" *ngIf="f.submitted && status.invalid">
+                                    <div *ngIf="status.errors.required">status is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class=" col-md-12">
+                            <div class=" form-group">
+                                <label> Image Path </label>
+                                <input class=" form-control" type="text" name="imgPath" required
+                                    [(ngModel)]="product.imgPath" #imgPath="ngModel" />
+                                <div class="text-danger" *ngIf="f.submitted && imgPath.invalid">
+                                    <div *ngIf="imgPath.errors.required">img Path is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button class=" btn btn-fill black-btn pull-right">Ajouter</button>
+                        </div>
+                    </form>
+                    <div class="alert alert-success" *ngIf="isSuccessful" style="text-align: center;">
+                        Produit créer avec succes
+                    </div>
+                    <div class="alert alert-warning" *ngIf="erreur && div1" style="text-align: center;">
+                        Échec ! Ce produit existe deja
+                        <i class=" tim-icons icon-simple-remove pull-right" (click)="hide()"> </i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section *ngIf="updateselectedProduct">
+        <div class=" col-md-8">
+            <div class=" card">
+                <div class=" card-header">
+                    <h5 class="title  pull-left">Modifier le Produit</h5>
+                    <i class=" tim-icons icon-simple-remove pull-right" (click)="closeModificationForm()"> </i>
+
+                </div>
+                <div class=" card-body">
+                    <form name="form" id="formUpdateProduct" (ngSubmit)="updateProduct(newProduct.id)" #f="ngForm">
+                        <div class=" col-md-12">
+                            <div class=" form-group">
+                                <label> Nom </label>
+                                <input class=" form-control" type="text" name="name" [(ngModel)]="newProduct.name"
+                                    #name="ngModel" />
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <div class=" form-group">
+                                <label> Description </label>
+                                <input class=" form-control" type="text" name="description"
+                                    [(ngModel)]="newProduct.description" #description="ngModel" />
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <div class=" form-group">
+                                <label> Price </label>
+                                <input class=" form-control" type="number" name="price" [(ngModel)]="newProduct.price"
+                                    #price="ngModel" />
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <div class=" form-group">
+                                <label> Quantity </label>
+                                <input class=" form-control" type="number" name="quantity"
+                                    [(ngModel)]="newProduct.quantity" #quantity="ngModel" />
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <div class=" form-group">
+                                <label> Image Path</label>
+                                <input class=" form-control" type="text" name="imgPath" [(ngModel)]="newProduct.imgPath"
+                                    #imgPath="ngModel" />
+                            </div>
+                        </div>
+                        <div class=" form-group">
+                            <label>Disponibilité : </label>
+                            <div class="select-style">
+                                <select [(ngModel)]="newProduct.status" name="newProduct.status" #status="ngModel">
+                                    <option></option>
+                                    <option>AVAILABLE</option>
+                                    <option>DISCONTINUED</option>
+                                </select>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="form-group">
+                            <button class=" btn btn-fill btn-danger pull-right">Valider</button>
+                        </div>
+
+                    </form>
+                    <div class="alert alert-success" *ngIf="updated" style="text-align: center;">
+                        Produit modifié avec succes
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</div>

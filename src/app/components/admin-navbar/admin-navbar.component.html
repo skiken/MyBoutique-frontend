@@ -1,0 +1,49 @@
+<a><img class="logo" src="/assets/img/logo.png"></a>
+<h2 class="pull-left" style="margin-left: 20px;margin-top:25px;">Gestionnaire de stock</h2>
+
+<ul class=" navbar-nav ml-auto">
+    <li class=" nav-item" ngbDropdown>
+        <a class=" nav-link" data-toggle="dropdown" href="javascript:void(0)" ngbDropdownToggle>
+            <div class="pull-right" style="margin-right: 30px;margin-top: 15px;" (click)="logout()">
+                <i class=" tim-icons icon-button-power"> </i> Deconnexion
+            </div>
+            <div class="pull-right" style="margin-right: 30px;margin-top: 15px;" (click)="showConnectionPopUp()">
+                <i class=" tim-icons icon-badge"> </i> Connectez-vous
+            </div>
+
+            <div class="pull-right" style="margin-right: 50px;margin-top: 15px;" (click)="moveToRegistration()">
+                <i class=" tim-icons icon-simple-add"> </i> New Admin
+            </div>
+        </a>
+    </li>
+
+    <div id="container" class="container">
+        <div class="alert alert-warning" *ngIf="div1" style="text-align: center;">
+            <span class="tim-icons icon-bell-55"> </span> Vous etes deja connecter
+            <i class=" tim-icons icon-simple-remove pull-right" (click)="hide()"> </i>
+        </div>
+        <div class="alert alert-warning" *ngIf="div2" style="text-align: center;">
+            <span class="tim-icons icon-bell-55"> </span> Vous devez vous deconnecter avant 
+            <i class=" tim-icons icon-simple-remove pull-right" (click)="hideAlert()"> </i>
+        </div>
+        <!------------------------------------------------------------------------------------------------------------->
+        <div [style.display]="showModal ? 'block' : 'none'" class="modal" id="imagemodal" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <app-login-admin></app-login-admin>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark pull-right" data-dismiss="modal" 
+                            (click)="hideConnectionPopUp()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!------------------------------------------------------------------------------------------------------------>
+
+
+    </div>
+
+</ul>

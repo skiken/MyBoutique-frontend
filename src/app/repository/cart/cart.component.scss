@@ -1,0 +1,32 @@
+input {
+    height: 20px;
+    flex: 0 0 200px;
+    margin-left: 10px;
+  }
+
+  .label{
+    display: inline-block;
+    text-align: right;
+  }
+
+  .tim-icons {
+    position: absolute;
+     
+     margin: 10px 10px 10px 400px;
+  }
+
+  .contente{
+    float: none;
+   
+    top: 20%;
+    left: 30%;
+    transform: translate(5%, 10%, 10%, 5%);
+    margin:20px 20px 20px 30px;  
+}
+
+.logo{
+  height:150px;
+  width: 150px;
+  margin:0px 0px 0px 20px; 
+}
+  

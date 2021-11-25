@@ -1,0 +1,102 @@
+<div class=" contente">
+    <br><br><br>
+    <div class="d" style="width:1400px">
+        <br> <br>
+        <div *ngIf="emtyList">
+            <h3>Vous n'avez pas encore commander sur notre site. Consulter nos rayons pour voir nos produits.</h3>
+            <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+        </div>
+        <div class=" card-body" *ngIf="!emtyList">
+            <br>
+            <h2 style="font-style: italic;font-family: Verdana, Geneva, Tahoma, sans-serif;">Liste des commandes
+                effectuées :</h2>
+            <div class=" card-body">
+                <table class=" table tablesorter">
+                    <thead class=" text-primary">
+                        <tr>
+                            <th>Reférence </th>
+                            <th>Date </th>
+                            <th>Prix </th>
+                            <th>Detail Commande </th>
+                            <th>Etat commande </th>
+                            <th>Télécharger Facture</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody class=" text-muted" *ngFor="let order of orderList">
+                        <tr>
+                            <th>
+                                {{order.id}}
+                            </th>
+                            <th>
+                                {{convert(order.shipped)}}
+                            </th>
+                            <th>
+                                {{order.totalPrice}} Dt <br>+ 7 Dt <br> (frais de livraison)
+                            </th>
+
+                            <th>
+                                <table>
+                                    <thead class=" text-primary">
+                                        <tr>
+                                            <th>
+
+                                            </th>
+                                            <th>
+                                                Nom Produit
+                                            </th>
+                                            <th>
+                                                Prix
+                                            </th>
+                                            <th>
+                                                quantité
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class=" text-muted" *ngFor="let orderItem of order.orderItems">
+                                        <tr>
+                                            <th>
+                                                <img class="logo " style="padding-right: 20px;"
+                                                    src="/assets/img/{{getProductImage(orderItem.productId)}}">
+                                            </th>
+                                            <th>
+                                                {{getProductName(orderItem.productId)}}
+                                            </th>
+                                            <th>
+                                                {{getProductPrice(orderItem.productId)}} Dt
+                                            </th>
+                                            <th>
+                                                {{orderItem.quantity}}
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </th>
+                            <th>
+                                 {{getOrderStatus(order.status)}}
+                            </th>
+                            <th>
+                                <button class="button" (click)="getpdf(order.id)">
+                                    <p class=" text-info">Télécharger</p>
+                                </button>
+                            </th>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class=" author">
+                <div class=" block block-one"></div>
+                <div class=" block block-two"></div>
+                <div class=" block block-three"></div>
+                <div class=" block block-four"></div>
+                <br>
+            </div>
+            <div class=" card-description">
+            </div>
+        </div>
+    </div>
+
+</div>

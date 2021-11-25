@@ -1,0 +1,31 @@
+<br><br>
+<div class=" contente">
+  <br><br>
+
+  <div class=" row">
+    <div class=" col-lg-4" *ngFor="let product of products">
+
+      <div class=" card card-chart">
+        <a class=" nav-link" data-toggle="dropdown" href="/product/{{product.id}}" style="pointer-events:visible;">
+          <div class="product">
+            <br>
+            <h3 class="name">{{product.name}}</h3>
+            <div>
+              <img class="logo" src="/assets/img/{{product.imgPath}}">
+            </div>
+            <br>
+          </div>
+        </a>
+        <h3 class="pull-left" id="price"> Prix: {{product.price}}Dt </h3>
+        <p id="dispo"class=" text-success" *ngIf="product.quantity-product.salesCounter>5"> <i class=" tim-icons icon-app"> </i> En stock </p>
+        <p id="dispo"class=" text-warning" *ngIf="5>=product.quantity-product.salesCounter && product.status=='AVAILABLE'"><i class=" tim-icons icon-app"> </i> Encore {{product.quantity-product.salesCounter-countSelectedProductInCart(product.id)}} en stock </p>
+        <p id="dispo"class=" text-danger"  *ngIf="product.status!='AVAILABLE'"><i class=" tim-icons icon-app"> </i> Stock epuisé </p>
+        <button class=" btn btn-fill btn-primary pull-right" id="add" [disabled]="product.status=='DISCONTINUED' || (product.quantity-product.salesCounter-countSelectedProductInCart(product.id))==0"
+          (click)="addProductToCart(product)">Ajouter</button>
+      </div>
+
+    </div>
+
+
+
+  </div>

@@ -1,0 +1,194 @@
+<div class=" content">
+
+    <nav class="navbar navbar-expand-lg  bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active" ngbDropdown>
+                    <a class="nav-link" (click)="showTable()" data-toggle="dropdown" href="javascript:void(0)"
+                        ngbDropdownToggle> List des Utilisateurs <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <section *ngIf="showUsers">
+        <br> <br> <br>
+        <div class=" col-md-12">
+            <div class=" card card-plain">
+                <div class=" card-header">
+                    <!-- Search form -------------------------------->
+
+                    <form class="form-inline md-form form-sm active-pink active-pink-2">
+                        <input class="form-control form-control-sm ml-3 w-75" type="text"
+                            placeholder="&#xF002; Search by username" style="font-family:Arial, FontAwesome"
+                            aria-label="Search" id="myInput" (keyup)="search()">
+                    </form>
+                    <!--------------------------------------------->
+                    <br>
+                    <br>
+                    <h4 class=" card-title">List des Utilisateurs : </h4>
+                </div>
+                <div class=" card-body">
+                    <div class=" table-responsive">
+                        <table class=" table tablesorter" id="myTable">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th>UserName</th>
+                                    <th>Nom</th>
+                                    <th>Prenom</th>
+                                    <th>Telephone</th>
+                                    <th>Email</th>
+                                    <th>Adresse</th>
+                                    <th>Ville</th>
+                                    <th>Code Postal</th>
+                                    <th class=" text-center"></th>
+                                    <th class=" text-center"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody class=" text-muted" *ngFor="let user of usersList">
+                                <tr>
+                                    <td>
+                                        {{user.username}}
+                                    </td>
+                                    <td>
+                                        {{user.firstName}}
+                                    </td>
+                                    <td>
+                                        {{user.lastName}}
+                                    </td>
+                                    <td>
+                                        {{user.telephone}}
+                                    </td>
+                                    <td>
+                                        {{user.email}}
+                                    </td>
+                                    <td>
+                                        {{user.address.address}}
+                                    </td>
+                                    <td>
+                                        {{user.address.city}}
+                                    </td>
+                                    <td>
+                                        {{user.address.postcode}}
+                                    </td>
+                                    <td>
+                                        <button class="button" (click)="openUserHistorique(content,user.id)">
+                                            <p class=" text-primary">Historique</p>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!----------------------------------------------------------------------------------------------------------------->
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title">Historique des Commandes </h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class=" card card-user" id="scrollable"style="width:750px">
+                <div class=" card-body">
+                    <div style="text-align: center">
+                        <span class="title" style="color: white;font-size:large;">Utilisateur :</span> <span
+                            style="color: white;font-size:large;"> {{customer.lastName}} {{customer.firstName}}</span>
+                    </div>
+                    <br>
+                    <h5>Liste des commandes effectuées :</h5>
+                    <div class=" card-body">
+                            <table class=" table tablesorter">
+                                <thead class=" text-primary">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Date </th>
+                                        <th>Prix </th>  
+                                        <th>Detail Commande </th> 
+                                        <th>Etat</th>
+                                        <th>Facture</th>
+                                        
+                                    </tr>
+                                </thead>
+    
+                                <tbody class=" text-muted" *ngFor="let order of orderList">
+                                    <tr>
+                                        <th>
+                                            {{order.id}}
+                                        </th>
+                                        <th>
+                                           {{convert(order.shipped)}}
+                                        </th>
+                                        <th>
+                                            {{order.totalPrice}} dt
+                                        </th>
+                                    
+                                        <th  >
+                                            <table class=" table tablesorter">
+                                                <thead class=" text-primary">
+                                                    <tr>
+                                                        <th>
+                                                            Nom Produit
+                                                        </th>
+                                                        <th>
+                                                            quantité
+                                                        </th>
+                                                    </tr>
+                                                </thead> 
+                                                <tbody class=" text-muted" *ngFor="let orderItem of order.orderItems">
+                                                    <tr>
+                                                        <th>
+                                                            {{getProductName(orderItem.productId)}}
+                                                        </th>
+                                                        <th>
+                                                            {{orderItem.quantity}}
+                                                        </th>
+                                                    </tr>
+                                                </tbody>  
+                                            </table>
+                                        </th>
+                                        <th>
+                                            {{order.status}} 
+                                        </th>
+                                        <th>
+                                            <button class="button" (click)="getpdf(order.id)">
+                                                <p class=" text-info">Télécharger</p>
+                                            </button>
+                                        </th>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        
+                    </div>
+                    <div class=" author">
+                        <div class=" block block-one"></div>
+                        <div class=" block block-two"></div>
+                        <div class=" block block-three"></div>
+                        <div class=" block block-four"></div>
+                        <br>
+                    </div>
+                    <div class=" card-description">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ng-template>
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+</div>

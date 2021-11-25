@@ -1,0 +1,192 @@
+<div class=" content">
+
+    <nav class="navbar navbar-expand-lg  bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active" ngbDropdown>
+                    <a class="nav-link" (click)="showTable()" data-toggle="dropdown" href="javascript:void(0)"
+                        ngbDropdownToggle> List des Categorie <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" ngbDropdown>
+                    <a class="nav-link" (click)="showForm()" data-toggle="dropdown" href="javascript:void(0)"
+                        ngbDropdownToggle>Nouvelle Categorie</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <section *ngIf="showCategoies">
+        <br> <br> <br>
+        <div class=" col-md-12">
+            <div class=" card card-plain">
+                <div class=" card-header">
+                    <h4 class=" card-title">List des Categorie presents sur Aziz Market Place</h4>
+                </div>
+                <div class=" card-body">
+
+                    <table class=" table tablesorter">
+                        <thead class=" text-primary">
+                            <tr>
+                                <th>Identifiant</th>
+                                <th>Nom</th>
+                                <th>Description</th>
+                                <th class=" text-center"></th>
+                                <th class=" text-center"></th>
+                            </tr>
+                        </thead>
+
+                        <tbody class=" text-muted" *ngFor="let category of categoriesList">
+                            <tr>
+                                <th>
+                                    {{category.id}}
+                                </th>
+                                <th>
+                                    {{category.name}}
+                                </th>
+                                <th>
+                                    {{category.description}}
+                                </th>
+                                <th>
+                                    <button class="button" (click)="showUpdateForm(category.id)">
+                                        <p class=" text-success">Modifier</p>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button class="button" (click)="showDeletePopUp(category.id)">
+                                        <p class=" text-danger">Supprimer</p>
+                                    </button>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+    </section>
+
+    <section *ngIf="addCategory">
+        <br><br>
+        <div class=" col-md-8">
+            <div class=" card">
+                <div class=" card-header">
+                    <h5 class=" title">Ajouter une nouvelle Categorie</h5>
+                </div>
+                <div class=" card-body">
+                    <form name="form" id="formNewCategorie" (ngSubmit)="f.form.valid && createCategory()" #f="ngForm"
+                        novalidate>
+                        <div class=" col-md-12">
+                            <div class=" form-group">
+                                <label> Nom </label>
+                                <input class=" form-control" type="text" name="name" [(ngModel)]="category.name"
+                                    required #name="ngModel" />
+                                <div class="text-danger" *ngIf="f.submitted && name.invalid">
+                                    <div *ngIf="name.errors.required">Name is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <div class=" form-group">
+                                <label> Description </label>
+                                <input class=" form-control" type="text" name="description" required
+                                    [(ngModel)]="category.description" #description="ngModel" />
+                                <div class="text-danger" *ngIf="f.submitted && description.invalid">
+                                    <div *ngIf="description.errors.required">description is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class=" btn btn-dark">Ajouter</button>
+                        </div>
+                    </form>
+                    <div class="alert alert-success" *ngIf="isSuccessful" style="text-align: center;">
+                        Categorie créer avec succes
+                    </div>
+                    <div class="alert alert-warning" *ngIf="erreur && div1" style="text-align: center;">
+                        Échec ! Cette categorie existe deja
+                        <i class=" tim-icons icon-simple-remove pull-right" (click)="hide()"> </i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section *ngIf="updateselectedCategory">
+        <div class=" col-md-8">
+            <div class=" card">
+                <div class=" card-header">
+                    <h5 class="title  pull-left">Modifier la Categorie</h5>
+                    <i class=" tim-icons icon-simple-remove pull-right" (click)="closeModificationForm()"> </i>
+
+                </div>
+                <div class=" card-body">
+                    <form name="form" id="formUpdateCategorie" (ngSubmit)="updateCategory(newCategory.id)" #f="ngForm">
+                        <div class=" col-md-12">
+                            <div class=" form-group">
+                                <label> Nom </label>
+                                <input class=" form-control" type="text" name="name" [(ngModel)]="newCategory.name"
+                                    #name="ngModel" />
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <div class=" form-group">
+                                <label> Description </label>
+                                <input class=" form-control" type="text" name="description"
+                                    [(ngModel)]="newCategory.description" #description="ngModel" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-dark pull-right">Valider</button>
+                        </div>
+                    </form>
+                    <div class="alert alert-success" *ngIf="updated" style="text-align: center;">
+                        Categorie modifiée avec succes
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!------------------------------------------------------------------------------------------------------------->
+    <div [style.display]="showModal ? 'block' : 'none'" class="modal" id="imagemodal" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                   <p style="text-align: center;">Attention ! En supprimant cette categorie, Vous allez supprimer tous les Produits associés. </p> 
+                    <br><br>
+                    <button type="button" class="btn btn-fill btn-dark pull-left" data-dismiss="modal"
+                        (click)="deleteCategory()">Confirmer</button>
+                    <button type="button" class="btn btn-fill btn-danger pull-right" data-dismiss="modal"
+                        (click)="hideDeletePopUp()">Annuler</button>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+    <!------------------------------------------------------------------------------------------------------------>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>

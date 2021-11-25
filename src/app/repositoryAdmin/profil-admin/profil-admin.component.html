@@ -1,0 +1,127 @@
+<div class=" content">
+    <div class=" row">
+        <div class=" col-md-8">
+
+            <div class=" card">
+                <div class=" card-header">
+                    <h5 class=" title">Edit Profile</h5>
+                </div>
+                <div class=" card-body" *ngIf="customer">
+
+                    <form *ngIf="!isSuccessful" name="form" id="form" (ngSubmit)="f.form.valid && onSubmit()"
+                        #f="ngForm" novalidate>
+                        <div class=" row">
+
+                            <div class=" col-md-12">
+                                <div class=" form-group">
+                                    <label> UserName </label>
+                                    <input class=" form-control" type="text" name="username"
+                                        [(ngModel)]="customer.username" required minlength="3" maxlength="20"
+                                        #username="ngModel" />
+                                    <div class="text-danger" *ngIf="f.submitted && username.invalid">
+                                        <div *ngIf="username.errors.required">Username is required</div>
+                                        <div *ngIf="username.errors.minlength">
+                                            Username must be at least 3 characters
+                                        </div>
+                                        <div *ngIf="username.errors.maxlength">
+                                            Username must be at most 20 characters
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class=" col-md-12">
+                                <div class=" form-group">
+                                    <label>Password </label>
+                                    <span class="input-placeholder">
+                                        <input class=" form-control" type="password" name="password" id="inputPassword"
+                                            [type]="hide ? 'password' : 'text'" [(ngModel)]="customer.password" required
+                                            minlength="6" #password="ngModel" />
+                                        <i class="fa fa-fw fa-eye field-icon toggle-password" id="placeholder"
+                                            (click)="myFunction()"></i>
+                                    </span>
+                                    <div class="text-danger" *ngIf="f.submitted && password.invalid">
+                                        <div *ngIf="password.errors.required">Password is required</div>
+                                        <div *ngIf="password.errors.minlength">
+                                            Password must be at least 6 characters
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class=" row">
+
+                            <div class=" col-md-12">
+                                <div class=" form-group">
+                                    <label>FirstName </label>
+                                    <input class=" form-control" type="text" name="firstName"
+                                        [(ngModel)]="customer.firstName" required firstName #firstName="ngModel" />
+                                </div>
+                                <div class="text-danger" *ngIf="f.submitted && firstName.invalid">
+                                    <div *ngIf="firstName.errors.required">FirstName is required</div>
+                                </div>
+                            </div>
+
+                            <div class=" col-md-12">
+                                <div class=" form-group">
+                                    <label>LastName </label>
+                                    <input class=" form-control" type="text" name="lastName"
+                                        [(ngModel)]="customer.lastName" required lastName #lastName="ngModel" />
+                                </div>
+                                <div class="text-danger" *ngIf="f.submitted && lastName.invalid">
+                                    <div *ngIf="lastName.errors.required">LastName is required</div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+
+
+                        <div class="form-group">
+                            <button class=" btn btn-fill btn-danger">Save</button>
+                        </div>
+                    </form>
+
+
+                    <div class="alert alert-success" *ngIf="isSuccessful">
+                        Modification Done, must Login to continue
+                        <button class="button is-link is-outlined pull-right" (click)="ok()">Ok</button>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+        <div class=" col-md-4">
+
+            <div class=" card card-user">
+                <div class=" card-body">
+                    <p class=" card-text"></p>
+                    <div class=" author">
+                        <div class=" block block-one"></div>
+                        <div class=" block block-two"></div>
+                        <div class=" block block-three"></div>
+                        <div class=" block block-four"></div>
+                        <br>
+                    </div>
+                    <div class=" card-description" style="text-align: center">
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>

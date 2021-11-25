@@ -1,0 +1,97 @@
+<nav class=" navbar navbar-expand-lg  navbar-transparent">
+  <div class=" container-fluid">
+    <div class=" navbar-wrapper">
+      <div class=" navbar-toggle d-inline">
+  
+            <div>
+              <br>
+              <a href="/home#contact">
+                <!-- <a  [routerLink]="['home']" [fragment]="'contact'">  -->
+                <p style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, 'Arial Narrow', Arial, sans-serif;font-size: medium;"> Trouver Notre Magasin <i class="tim-icons icon-tap-02"> </i></p>
+              </a>
+    
+            </div>
+    
+      <div class="rayon">
+       Rayons :
+        </div>
+        <div class="topnav-centered">
+          <ul class=" navbar-nav ml-auto" >
+            <li class=" nav-item" ngbDropdown *ngFor="let category of categories">
+              <a class=" nav-link" data-toggle="dropdown" href="/category/{{category.id}}" ngbDropdownToggle>
+                
+              <p style="font-size: large;font-style: oblique;font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">
+                {{category.name}}</p> 
+              </a>
+            </li>
+          </ul>
+        </div>
+        <br>
+      </div>
+    </div>
+
+    <div class=" navbar-collapse" [ngbCollapse]="isCollapsed" id="navigation">
+      <a href="/home" ><img class="logo" src="/assets/img/logo.png"></a>
+      <ul class=" navbar-nav ml-auto">
+        <li class=" search-bar input-group">
+          <button class=" btn btn-link" data-target="#searchModal" data-toggle="modal" (click)="open(content)"
+            id="search-button">
+            <i class=" tim-icons icon-zoom-split"> </i> Search
+            <span class=" d-lg-none d-md-block"> Search </span>
+          </button>
+        </li>
+        <li class=" nav-item" ngbDropdown>
+          <a class=" nav-link"  href="/cart" data-toggle="dropdown" ngbDropdownToggle>
+              <i class="tim-icons icon-basket-simple"> </i>  
+              <span class='badge badge-warning' id='lblCartCount'> {{productInCartLenght}} </span>Panier
+          </a>
+        </li>
+        <li class=" nav-item" ngbDropdown>
+          <a class=" nav-link" data-toggle="dropdown" href="javascript:void(0)" ngbDropdownToggle>
+            <div>
+              <i class="tim-icons icon-single-02"> </i> Mon Compte
+            </div>
+
+          </a>
+          <ul class=" dropdown-navbar" ngbDropdownMenu>
+            <li class=" nav-link" *ngIf="!visible">
+              <a class="nav-item" href="javascript:void(0)" ngbDropdownItem routerLink="/signin">
+                Connexion
+              </a>
+            </li>
+            <li class=" nav-link" *ngIf="!visible">
+              <a class="nav-item" href="javascript:void(0)" ngbDropdownItem routerLink="/signup">
+                Inscription
+              </a>
+            </li>
+            <li class=" nav-link"  *ngIf="visible">
+              <a class="nav-item" href="javascript:void(0)" ngbDropdownItem routerLink="/profil">
+                Profile
+              </a>
+            </li>
+            <li class=" nav-link"  *ngIf="visible">
+              <a class="nav-item" href="javascript:void(0)" ngbDropdownItem routerLink="/userOrders">
+                Mes Commandes
+              </a>
+            </li>
+            <li class=" nav-link" *ngIf="visible">
+              <Button class=" nav-item" href="javascript:void(0)" (click)="logout()" ngbDropdownItem>Log out</Button>
+            </li>
+          </ul>
+        </li>
+        <li class=" separator d-lg-none"></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<ng-template #content let-modal>
+  <div class=" modal-header">
+    <input class=" form-control" id="inlineFormInputGroup" placeholder="SEARCH" type="text" />
+
+    <button aria-label="Close" class=" close" data-dismiss="modal" type="button" (click)="modal.dismiss('Cross click')">
+      <i class=" tim-icons icon-simple-remove"> </i>
+    </button>
+  </div>
+
+</ng-template>

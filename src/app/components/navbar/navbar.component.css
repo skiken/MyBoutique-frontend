@@ -1,0 +1,46 @@
+.logo{
+    height:75px;
+    width: 70px;
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    margin: 10px 30px 40px 50px;
+    
+}
+
+.topnav-centered {
+    float: none;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 60px 30px 40px 50px;
+  }
+
+  .rayon{
+    float: none;
+    position: absolute;
+    top: 70%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    margin: 60px 30px 40px 50px;
+    
+
+  }
+
+  #lblCartCount {
+    font-size: 9px;
+    background: #ff00ff;
+    color: #fff;
+    padding: 0 5px;
+    vertical-align: top;
+    margin-left: -10px;
+}
+.badge {
+  padding-left: 8px;
+  padding-right: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}

@@ -1,0 +1,118 @@
+<div class="wrapper">
+    <div class="main-panel">
+        <app-admin-navbar></app-admin-navbar>
+        <router-outlet>
+            <br>
+            <br>
+            <h1 style="margin-left: 250px;margin-top: 20px;">
+                Inscription administrateur</h1>
+            <div id="container" class="container">
+        
+                <br>
+                <div class="col-md-6 offset-md-3">
+                    <form *ngIf="!isSuccessful" name="form" id="form"(ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+                        <div class="form-group">
+                            <label for="firstName"> first name : *</label>
+                            <input type="text" class="form-control" name="firstName" [(ngModel)]="form.firstName" required
+                                #firstName="ngModel" placeholder="firstName">
+                            <div class="text-danger" *ngIf="f.submitted && firstName.invalid">
+                                <div *ngIf="firstName.errors.required">firstName is required</div>
+                            </div>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="lastName">last name : *</label>
+                            <input type="text" class="form-control" name="lastName" [(ngModel)]="form.lastName" required
+                                #lastName="ngModel" placeholder="lastName">
+                            <div class="text-danger" *ngIf="f.submitted && lastName.invalid">
+                                <div *ngIf="lastName.errors.required">lastName is required</div>
+                            </div>
+                        </div>
+        
+        
+        
+                        <div class="form-group">
+                            <label for="username">adminName : *</label>
+                            <input type="text" class="form-control" name="username" [(ngModel)]="form.username" required
+                                minlength="3" maxlength="20" #username="ngModel" placeholder="adminName" />
+        
+                            <div class="text-danger" *ngIf="f.submitted && username.invalid">
+                                <div *ngIf="username.errors.required">adminName is required</div>
+                                <div *ngIf="username.errors.minlength">
+                                    adminName must be at least 3 characters
+                                </div>
+                                <div *ngIf="username.errors.maxlength">
+                                    adminName must be at most 20 characters
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="password">password : * </label>
+                            <span >
+                                <input class="form-control" type="password" name="password" id="inputPassword"
+                                    [type]="hidepassword ? 'password' : 'text'" [(ngModel)]="form.password" required
+                                    minlength="6" #password="ngModel" placeholder="password" />
+                                <i class="fa fa-fw fa-eye field-icon toggle-password" id="placeholder"
+                                    (click)="myFunction()"></i>
+                            </span>
+                            <div class="text-danger" *ngIf="f.submitted && password.invalid">
+                                <div *ngIf="password.errors.required">Password is required</div>
+                                <div *ngIf="password.errors.minlength">
+                                    Password must be at least 6 characters
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="matchingpassword">confirm password : *</label>
+                            <span >
+                                <input class="form-control" type="password" name="matchingpassword" id="inputPassword"
+                                    [type]="hidepassword ? 'password' : 'text'" [(ngModel)]="form.matchingPassword" required
+                                    minlength="6" #matchingPassword="ngModel" placeholder="password"/>
+                                <i class="fa fa-fw fa-eye field-icon toggle-password" id="placeholder"
+                                    (click)="myFunction()"></i>
+                            </span>
+                            <div class="text-danger" *ngIf="f.submitted && matchingPassword.invalid">
+                                <div *ngIf="matchingPassword.errors.required">Password is required</div>
+                                <div *ngIf="(matchingPassword.dirty || matchingPassword.touched) && matchingPassword.invalid">
+                                    <p class="text-danger" *ngIf="matchingPassword.hasError('notEqual') && password.valid">
+                                        Passwords Don't Match
+                                    </p>
+        
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="form-group">
+                            <button class="btn btn-primary pull-left" (click)="show()">Register</button>
+                        </div>
+                        <div>
+                            <a routerLink="/adminHome" class="btn btn-primary  pull-right">
+                                retour
+                            </a>
+                        </div>
+                        <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed  && div1">
+                            <span class="tim-icons icon-bell-55"> </span>
+        
+                            Inscription échouée ! <br />{{ errorMessage }}
+                            <i class=" tim-icons icon-simple-remove pull-right" (click)="hide()"> </i>
+                        </div>
+                    </form>
+                    <div class="alert alert-success" *ngIf="isSuccessful">
+                        Votre inscription est réussie!
+                        <i class="tim-icons icon-satisfied"></i>
+                        <p routerLink="/adminHome" class="pull-right">OK</p>
+                    </div>
+                </div>
+                <br>
+        
+            </div>
+        
+        </router-outlet>
+    </div>
+</div>
+
+   
+
+

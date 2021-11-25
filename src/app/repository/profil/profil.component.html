@@ -1,0 +1,220 @@
+<div class=" contente">
+  <br><br>
+  <div class=" row">
+    <div class=" col-md-8">
+      <div class=" card">
+        <div class=" card-header">
+          <h5 class=" title">Edit Profile</h5> 
+        </div>
+        <div class=" card-body" *ngIf="customer">
+
+          <form *ngIf="!isSuccessful" name="form" id="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+            <div class=" row">
+              <div class=" col-md-6 pr-md-1">
+                <div class=" form-group">
+                  <label> UserName </label>
+                  <input class=" form-control" type="text" name="username" [(ngModel)]="customer.username" required
+                    minlength="3" maxlength="20" #username="ngModel" />
+                  <div class="text-danger" *ngIf="f.submitted && username.invalid">
+                    <div *ngIf="username.errors.required">Username is required</div>
+                    <div *ngIf="username.errors.minlength">
+                      Username must be at least 3 characters
+                    </div>
+                    <div *ngIf="username.errors.maxlength">
+                      Username must be at most 20 characters
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class=" col-md-6 pr-md-1">
+                <div class=" form-group">
+                  <label>Password </label>
+                  <span class="input-placeholder">
+                    <input class=" form-control" type="password" name="password" id="inputPassword"
+                        [type]="hide ? 'password' : 'text'" [(ngModel)]="customer.password" required
+                        minlength="6" #password="ngModel" />
+                    <i class="fa fa-fw fa-eye field-icon toggle-password" id="placeholder"
+                        (click)="myFunction()"></i>
+                </span>
+                  <div class="text-danger" *ngIf="f.submitted && password.invalid">
+                    <div *ngIf="password.errors.required">Password is required</div>
+                    <div *ngIf="password.errors.minlength">
+                      Password must be at least 6 characters
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class=" col-md-6 pr-md-1">
+                <div class=" form-group">
+                  <label for="exampleInputEmail1"> Email address </label>
+                  <input class=" form-control" type="email" name="email" [(ngModel)]="customer.email" required email
+                    #email="ngModel" />
+                </div>
+                <div class="text-danger" *ngIf="f.submitted && email.invalid">
+                  <div *ngIf="email.errors.required">Email is required</div>
+                  <div *ngIf="email.errors.email">
+                    Email must be a valid email address
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class=" row">
+              
+              <div class=" col-md-6 pr-md-1">
+                <div class=" form-group">
+                  <label >FirstName </label>
+                  <input class=" form-control" type="text" name="firstName" [(ngModel)]="customer.firstName" required firstName
+                    #firstName="ngModel" />
+                </div>
+                <div class="text-danger" *ngIf="f.submitted && firstName.invalid">
+                  <div *ngIf="firstName.errors.required">FirstName is required</div>
+                </div>
+              </div>
+
+              <div class=" col-md-4 pl-md-1">
+                <div class=" form-group">
+                  <label >LastName </label>
+                  <input class=" form-control" type="text" name="lastName" [(ngModel)]="customer.lastName" required lastName
+                    #lastName="ngModel" />
+                </div>
+                <div class="text-danger" *ngIf="f.submitted && lastName.invalid">
+                  <div *ngIf="lastName.errors.required">LastName is required</div>
+                </div>
+              </div>
+
+              <div class=" col-md-4 pr-md-1">
+                <div class=" form-group">
+                  <label >Telephone </label>
+                  <input class=" form-control" type="text" name="telephone"[pattern]="mobNumberPattern" [(ngModel)]="customer.telephone" required telephone
+                    #telephone="ngModel" />
+                </div>
+                <div class="text-danger" *ngIf="f.submitted && telephone.invalid">
+                  <div *ngIf="telephone.errors.required">telephone is required</div>
+                  <div *ngIf="telephone.errors.pattern">
+                    Mobile number not valid.
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class=" row">
+    
+              <div class=" col-md-12">
+                <div class=" form-group">
+                  <label> Address </label>
+                  <input class=" form-control" type="text" [(ngModel)]="customer.address.address" name="address"
+                    #address="ngModel" required />
+                    <div class="text-danger" *ngIf="f.submitted && address.invalid">
+                      <div *ngIf="address.errors.required">Address is required</div>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <div class=" row">
+              <div class=" col-md-4 pr-md-1">
+                <div class=" form-group">
+                  <label> City </label>
+                  <input class=" form-control" type="text" [(ngModel)]="customer.address.city" name="city"
+                    #city="ngModel" required />
+                    <div class="text-danger" *ngIf="f.submitted && city.invalid">
+                      <div *ngIf="city.errors.required">city is required</div>
+                    </div>
+
+                </div>
+              </div>
+
+              <div class=" col-md-4 px-md-1">
+                <div class=" form-group">
+                  <label> Country </label>
+                  <input class=" form-control" type="text" [(ngModel)]="customer.address.country" name="country"
+                    #country="ngModel" required />
+                    <div class="text-danger" *ngIf="f.submitted && country.invalid">
+                      <div *ngIf="country.errors.required">country is required</div>
+                    </div>
+                </div>
+              </div>
+
+              <div class=" col-md-4 pl-md-1">
+                <div class=" form-group">
+                  <label > Postal Code </label>
+                  <input class=" form-control" type="text" [pattern]="postalNumberPattern"  name="postcode"[(ngModel)]="customer.address.postcode"  postcode
+                    #postcode="ngModel" required />
+                </div>
+                <div class="text-danger" *ngIf="f.submitted && postcode.invalid">
+                  <div *ngIf="postcode.errors.pattern">
+                    Postal code must contain 4 number
+                  </div>
+                  <div *ngIf="postcode.errors.required">postcode is required</div>
+                </div>
+              </div>
+              
+            
+            </div>
+
+            <div class="form-group">
+              <button class=" btn btn-fill btn-danger">Save</button>
+            </div>
+          </form>
+          <div class="alert alert-success" *ngIf="isSuccessful">
+            Modification Done, must Login to continue
+            <button class="button is-link is-outlined pull-right" (click)="ok()">Ok</button>
+          </div>
+        </div>
+
+
+
+
+      </div>
+    </div>
+    <div class=" col-md-4">
+      <div class=" card card-user">
+        <div class=" card-body">
+          <p class=" card-text"></p>
+          <div class=" author">
+            <div class=" block block-one"></div>
+            <div class=" block block-two"></div>
+            <div class=" block block-three"></div>
+            <div class=" block block-four"></div>
+
+            <div>
+              <div> <img alt="..." class=" avatar" [src]="url" /></div>
+              <br>
+              <div style="text-align: center;">
+                <input type='file' (change)="onSelectFile($event)" />
+
+              </div>
+            </div>
+            <br>
+            <h5 class=" title">{{customer.lastName}} {{customer.firstName}}</h5>
+
+            <p class=" description">{{customer.username}} </p>
+            <div *ngIf="test"> <p class=" description">{{test}} </p></div>
+           
+          </div>
+          <div class=" card-description" style="text-align: center">
+            USER
+          </div>
+        </div>
+        <div class=" card-footer">
+          <div class=" button-container">
+            <button class=" btn btn-icon btn-round btn-facebook" href="javascript:void(0)">
+              <i class=" fab fa-facebook"> </i>
+            </button>
+            <button class=" btn btn-icon btn-round btn-twitter" href="javascript:void(0)">
+              <i class=" fab fa-twitter"> </i>
+            </button>
+            <button class=" btn btn-icon btn-round btn-google" href="javascript:void(0)">
+              <i class=" fab fa-google-plus"> </i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

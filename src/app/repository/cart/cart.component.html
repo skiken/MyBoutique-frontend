@@ -1,0 +1,102 @@
+<div class=" contente">
+    <br><br>
+    <div class=" row">
+        <div class=" col-md-8">
+            <div class=" card">
+                <div class=" card-header">
+                    <h2 class=" title">Mon panier :</h2>
+                </div>
+                <div *ngIf="selectedProductId==0">
+                    <h1>Votre panier est vide !</h1>
+                </div>
+               
+                <div *ngFor="let recipient of outputMap | keyvalue">
+                    <div style="float:left;width:25%;">
+                        <img class="logo" src="/assets/img/{{recipient.key.imgPath}}">
+                    </div>
+                    <div style="float:left;width:75%;">
+                        <br>
+                        <i class=" tim-icons icon-trash-simple"
+                            (click)="deleteSelectedProductFromCart(recipient.key)"></i>
+                        <span
+                            style="font-style: oblique;">{{recipient.key.name}} dt</span> <br>
+
+                        <span style="color: black;">Prix: </span><span
+                            style="font-style: oblique;">{{recipient.key.price}}dt</span> <br>
+
+                        <span style="color: black;">Quantité: </span>
+                        <span style="font-style: oblique;">{{recipient.value}} </span>
+
+                        <button (click)="add(recipient.key)"> +</button>
+                        <button (click)="remove(recipient.key)"> -</button>
+                    </div>
+                    <br> <br> <br> <br> <br>
+                    <hr style="width:50%;text-align:left">
+
+                </div>
+                
+             
+            </div>
+        </div>
+        <!---------------------------------------------------------------->
+
+
+        <div class=" col-md-4">
+            <div class=" card card-user">
+                <div class=" card-body">
+                    <p class=" text-danger">VOUS DEVEZ VOUS CONNECTER POUR FINALISER VOTRE COMMANDE</p>
+                    <button class="btn btn-block" (click)="showConnectionPopUp()">Connectez-vous </button>
+                    <div class="alert alert-warning" *ngIf="connected" style="text-align: center;">
+                        <span class="tim-icons icon-bell-55"> </span>
+                        VOUS ETES DEJA CONNECTER <br />
+                        <i class=" tim-icons icon-simple-remove pull-right"> </i>
+                    </div>
+
+                    <!-- Creates the bootstrap modal where the image will appear -->
+                    <div [style.display]="showModal ? 'block' : 'none'" class="modal" id="imagemodal" tabindex="-1"
+                        role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <app-pop-up-login></app-pop-up-login>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark pull-right" data-dismiss="modal"
+                                        (click)="hideConnectionPopUp()">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---------------------------------------------------------------->
+                    <br>
+                    <span class="pull-left">Valeur de la Commande :</span><span class="pull-right">{{commandPrice}}
+                        dt</span><br>
+                    <span class="pull-left">Livraiosn : </span><span class="pull-right">{{deliveryPrice}} dt</span><br>
+                    <hr>
+                    <span class="pull-left">Total : </span><span class="pull-right">{{totalPrice}} dt</span><br>
+                    <br><br>
+
+                    <button class="btn  btn-block" (click)="checkCart()">Finaliser la Commande</button>
+
+                    <div class="alert alert-warning" *ngIf="errorMessage" style="text-align: center;">
+                        <span class="tim-icons icon-bell-55"> </span>
+                        VOUS DEVEZ VOUS CONNECTER AVANT ! <br />
+                        <i class=" tim-icons icon-simple-remove pull-right"> </i>
+                    </div>
+                    <div class="alert alert-warning" *ngIf="empty" style="text-align: center;">
+                        <span class="tim-icons icon-bell-55"> </span>
+                        VOTRE PANIER NE COMPORTE AUCUN ARTICLE ! <br />
+                        <i class=" tim-icons icon-simple-remove pull-right"> </i>
+                    </div>
+                    <br><br>
+                    <div>
+                        <p>*Les prix et les frais de livraison ne sont validés que durant la finalisation de la
+                            commande.</p>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

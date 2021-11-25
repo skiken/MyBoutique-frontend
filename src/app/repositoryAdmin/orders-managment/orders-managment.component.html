@@ -1,0 +1,175 @@
+<div class=" content">
+    <nav class="navbar navbar-expand-lg  bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active" ngbDropdown>
+                    <a class="nav-link" (click)="showTable()" data-toggle="dropdown" href="javascript:void(0)"
+                        ngbDropdownToggle> Liste des Commandes à Preparer et à éxpedier <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" ngbDropdown>
+                    <a class="nav-link" (click)="showTable2()" data-toggle="dropdown" href="javascript:void(0)"
+                        ngbDropdownToggle> Liste des Commandes en Cours d'expedition </a>
+                </li>
+
+            </ul>
+            <!--------------------------------------------->
+        </div>
+    </nav>
+
+    <section *ngIf="showOrders">
+        <br> <br> <br>
+        <div class=" card-body">
+            <h2 *ngIf="confirmedOrderList.length==0" >Vous n'avez aucune commande à éxpedier.</h2>
+            <table class=" table tablesorter" *ngIf="!confirmedOrderList.length==0" >
+                <thead class=" text-primary">
+                    <tr>
+                        <th>Date </th>
+                        <th>Detail Commande </th>
+                        <th>Facture</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody class=" text-muted" *ngFor="let order of confirmedOrderList">
+                    <tr>
+                        <th>
+                            {{convert(order.shipped)}}
+                        </th>
+                        <th>
+                            <table class=" table tablesorter">
+                                <thead class=" text-primary">
+                                    <tr>
+                                        <th>
+                                            Identifiant Produit
+                                        </th>
+                                        <th>
+                                            Nom Produit
+                                        </th>
+                                        <th>
+                                            quantité
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class=" text-muted" *ngFor="let orderItem of order.orderItems">
+                                    <tr>
+                                        <th>
+                                            {{orderItem.productId}}
+                                        </th>
+                                        <th>
+                                            {{getProductName(orderItem.productId)}}
+                                        </th>
+                                        <th>
+                                            {{orderItem.quantity}}
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </th>
+
+                        <th>
+                            <button class="button" (click)="getpdf(order.id)">
+                                <p class=" text-info">Télécharger</p>
+                            </button>
+                        </th>
+                        <th>
+                            <p style="text-align: center;" class=" text-primary">Commande Preparée ! </p>
+                            <p style="text-align: center;" class=" text-primary">Modifier le statut à:</p>
+                            <div>
+                                <p style="text-align: center;" class=" text-success">'En cours de livraison'</p>
+                                <input  type="checkbox" id="isCheckBox" class="box" (change)="updateOrderStatus($event,order.id)" />
+                            </div>
+                            
+                        </th>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section *ngIf="showOrdersLivred">
+        <br>
+         <!-- Search form -------------------------------->
+
+         <form class="form-inline md-form form-sm active-pink active-pink-2">
+            <input class="form-control form-control-sm ml-3 w-75" type="number"
+                placeholder="&#xF002; Identifiant commande" style="font-family:Arial, FontAwesome"
+                aria-label="Search" id="myInput" (keyup)="search()">
+        </form>
+        <br>
+        <div class=" card-body">
+            <h2 *ngIf="orderInDeliveryList.length==0" >Vous n'avez aucune commande à mettre le statut à jour.</h2>
+            <table class=" table tablesorter" id="myTable" *ngIf="!orderInDeliveryList.length==0">
+                <thead class=" text-primary">
+                    <tr>
+                        <th>identifiant Commande </th>
+                        <th>Date de commande  </th>
+                        <th>Information Client</th>
+                        <th>Statut Commande</th>
+                    </tr>
+                </thead>
+
+                <tbody class=" text-muted" *ngFor="let order of orderInDeliveryList">
+                    <tr>
+                        <td>
+                          {{order.id}} 
+                        </td>
+                        <td>
+                            {{convert2(order.shipped)}}
+                        </td>
+                        <td>
+                            <div [innerText]="getClientInformation(order.id)"></div>
+                        </td>
+                        <td>
+                            <p  class=" text-info">Modifier le statut à:</p>
+                            <div>
+                                <label class=" text-success"> ' Livrée '</label>
+                                <input  type="checkbox" id="isCheckBox" class="box2" (change)="updateOrderStatusToLivred($event,order.id)" />
+                            </div> 
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+<!-------------------------------------------------------------------------------------------------------------------->
+    <div [style.display]="showModal ? 'block' : 'none'" class="modal" id="imagemodal" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p style="text-align: center;">La commande n° {{orderId}} est preparer et préte à etre éxpedier </p>
+                    <br><br>
+                    <button type="button" class="btn btn-fill btn-success pull-right" data-dismiss="modal"
+                        (click)="hidePopUp()">OK</button>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+    
+    <div [style.display]="showModal2 ? 'block' : 'none'" class="modal" id="imagemodal" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p style="text-align: center;">le Statut de la commande n° {{orderId}} a changé à Livrée. 
+                    Le client recevera un Email de notification de la livraison de sa commande.  </p>
+                <br><br>
+                <button type="button" class="btn btn-fill btn-success pull-right" data-dismiss="modal"
+                    (click)="hidePopUp2()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-------------------------------------------------------------------------------------------------------------------->
+
+</div>
